@@ -1,0 +1,37 @@
+:root {
+  --bg: #050508;         /* near-black */
+  --accent: #6c3bff;     /* violet */
+  --accent2: #ff3b8b;    /* magenta */
+  --accent3: #00e5ff;    /* cyan */
+  --muted: #5a5a7a;
+}
+
+/* Fixed background canvas — sits behind everything */
+#hero-canvas { position: fixed; z-index: 0; pointer-events: none; }
+
+/* All sections sit above it */
+section { position: relative; z-index: 10; }
+
+/* Staggered hero entrance */
+.hero-eyebrow { opacity: 0; animation: fadeUp 0.8s 0.3s forwards; }
+.hero-title    { opacity: 0; animation: fadeUp 0.8s 0.5s forwards; }
+.hero-sub      { opacity: 0; animation: fadeUp 0.8s 0.7s forwards; }
+.hero-ctas     { opacity: 0; animation: fadeUp 0.8s 0.9s forwards; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Timeline items — hidden until IntersectionObserver fires */
+.tl-item { opacity: 0; transform: translateX(-30px); transition: opacity 0.6s, transform 0.6s; }
+.tl-item.visible { opacity: 1; transform: translateX(0); }
+
+/* Stat card hover underline sweep */
+.stat-card::after {
+  content: ''; position: absolute; bottom: 0; left: 50%;
+  width: 0; height: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--accent3));
+  transition: width 0.6s ease;
+}
+.stat-card:hover::after { width: 80%; }

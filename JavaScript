@@ -1,0 +1,53 @@
+// 1,800 colored points + 8 floating wireframe polyhedra
+// Rotates slowly, reacts to mouse position and scroll offset
+const particleMat = new THREE.PointsMaterial({ size: 0.04, vertexColors: true });
+const particles = new THREE.Points(particleGeo, particleMat);
+
+function animateBg(t) {
+  particles.rotation.y = t * 0.00004;
+  particles.rotation.x = scrollY * 0.0003;
+  bgCamera.position.x += (bgMouseX * 0.5 - bgCamera.position.x) * 0.03; // smooth follow
+  shapes.forEach(s => { s.rotation.x += s.userData.rotX; s.rotation.y += s.userData.rotY; });
+  bgRenderer.render(bgScene, bgCamera);
+  requestAnimationFrame(animateBg);
+}
+// Central sphere with wireframe overlay + 3 orbiting torus rings + 12 satellite cubes
+// Drag to orbit, scroll to zoom, click sphere to pulse-flash it
+
+demoCanvas.addEventListener('mousedown', e => { isDragging = true; });
+demoCanvas.addEventListener('mousemove', e => {
+  if (!isDragging) return;
+  targetRot.y += (e.clientX - prevMouse.x) * 0.006;
+  targetRot.x += (e.clientY - prevMouse.y) * 0.006;
+});
+
+// Raycaster hover detection on sphere → cursor becomes pointer
+demoRaycaster.setFromCamera(demoMouse, demoCamera);
+const hits = demoRaycaster.intersectObject(sphere);
+hovering = hits.length > 0;
+
+// Click pulse
+demoCanvas.addEventListener('click', () => {
+  if (hovering) {
+    sphereMat.emissive = new THREE.Color(0x6c3bff);
+    setTimeout(() => { sphereMat.emissive = new THREE.Color(0x000000); }, 300);
+  }
+});
+function animateCounter(el, target, duration = 1800) {
+  let start = null;
+  function step(ts) {
+    if (!start) start = ts;
+    const eased = 1 - Math.pow(1 - Math.min((ts - start) / duration, 1), 3); // cubic ease-out
+    el.textContent = Math.floor(eased * target).toLocaleString();
+    if (eased < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+// Fires once when stat cards enter viewport
+const io = new IntersectionObserver(entries => {
+  if (entry.isIntersecting && !statsAnimated) {
+    statsAnimated = true;
+    statNums.forEach(el => animateCounter(el, parseInt(el.dataset.target)));
+  }
+}, { threshold: 0.15 });

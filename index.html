@@ -1,31 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Techfest 2026 — Build in 3D</title>
-  <!-- Google Fonts: Space Grotesk, Syne, JetBrains Mono -->
-  <!-- Three.js r128 from cdnjs -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Techfest 3D Experience</title>
+
+<link rel="stylesheet" href="CSS">
+
+<script type="module" src="JavaScript"></script>
 </head>
+
 <body>
-  <div class="cursor" id="cursor"></div>       <!-- Custom lagging ring cursor -->
-  <div class="cursor-dot" id="cursorDot"></div>
 
-  <canvas id="hero-canvas"></canvas>           <!-- Fixed bg: particles + wireframes -->
+<canvas id="bg"></canvas>
 
-  <nav>...</nav>                               <!-- Glassmorphism fixed navbar -->
+<div class="content">
+    <h1>Techfest 3D World</h1>
+    <p>Interactive 3D Website using Three.js</p>
+    <button>Explore</button>
+</div>
 
-  <section id="hero">...</section>            <!-- Full-viewport hero, staggered fadeUp -->
-  <section id="stats">...</section>           <!-- 4-col animated counters -->
-  <section id="features">...</section>        <!-- 3×2 feature card grid -->
-  <section id="demo">
-    <canvas id="demo-canvas"></canvas>         <!-- Draggable 3D sphere scene -->
-  </section>
-  <section id="timeline">...</section>        <!-- Scroll-triggered slide-in items -->
-  <section id="cta">...</section>
-  <footer>...</footer>
-
-  <script src="three.min.js"></script>
-  <script>/* all JS below */</script>
 </body>
 </html>
